@@ -32,14 +32,8 @@ namespace JDanielSmith.System
 		}
 
 		// easily convert to/from System.String
-		public static implicit operator String<TComparerAndComparison>(string source)
-		{
-			return new String<TComparerAndComparison>(source);
-		}
-		public static implicit operator string(String<TComparerAndComparison> source)
-		{
-			return source?.Value;
-		}
+		public static implicit operator String<TComparerAndComparison>(string source) => new String<TComparerAndComparison>(source);
+		public static implicit operator string(String<TComparerAndComparison> source) => source?.Value;
 
 		#region Equals, IEquatable
 		public override bool Equals(object obj)
@@ -63,26 +57,13 @@ namespace JDanielSmith.System
 				return false; // this != null
 			return Equals(other.Value); // call Equals(string)
 		}
-		public bool Equals(string other)
-		{
-			return _comparer.Equals(Value, other);
-		}
-
-		public override int GetHashCode()
-		{
-			return _comparer.GetHashCode(Value);
-		}
+		public bool Equals(string other) => _comparer.Equals(Value, other);
+		public override int GetHashCode() => _comparer.GetHashCode(Value); 
 		#endregion
 
-		public override string ToString()
-		{
-			return Value;
-		}
+		public override string ToString() => Value;
 
-		public object Clone()
-		{
-			return new String<TComparerAndComparison>(Value);
-		}
+		public object Clone() => new String<TComparerAndComparison>(Value);
 
 		#region IComparable
 		public int CompareTo(object obj)
@@ -136,65 +117,21 @@ namespace JDanielSmith.System
 				return Object.ReferenceEquals(y, null); // null == null, null != something
 			return x.Equals(y); // know x != null
 		}
-		public static bool operator ==(string x, String<TComparerAndComparison> y)
-		{
-			return y == x; // == is commutative, x == y
-		}
-
-		public static bool operator !=(String<TComparerAndComparison> x, String<TComparerAndComparison> y)
-		{
-			return !(x == y);
-		}
-		public static bool operator !=(string x, String<TComparerAndComparison> y)
-		{
-			return !(x == y);
-		}
-		public static bool operator !=(String<TComparerAndComparison> x, string y)
-		{
-			return !(x == y);
-		}
+		public static bool operator ==(string x, String<TComparerAndComparison> y) => y == x; // == is commutative, x == y
+		public static bool operator !=(String<TComparerAndComparison> x, String<TComparerAndComparison> y) => !(x == y);
+		public static bool operator !=(string x, String<TComparerAndComparison> y) => !(x == y);
+		public static bool operator !=(String<TComparerAndComparison> x, string y) => !(x == y);
 		#endregion
 
 		#region IndexOf, LastIndexOf, StartsWith, EndsWith
-		public bool EndsWith(string value)
-		{
-			return Value.EndsWith(value, _comparisonType);
-		}
-
-		public int IndexOf(string value)
-		{
-			return Value.IndexOf(value, _comparisonType);
-		}
-
-		public int IndexOf(string value, int startIndex)
-		{
-			return Value.IndexOf(value, startIndex, _comparisonType);
-		}
-
-		public int IndexOf(string value, int startIndex, int count)
-		{
-			return Value.IndexOf(value, startIndex, count, _comparisonType);
-		}
-
-		public int LastIndexOf(string value)
-		{
-			return Value.LastIndexOf(value, _comparisonType);
-		}
-
-		public int LastIndexOf(string value, int startIndex)
-		{
-			return Value.LastIndexOf(value, startIndex, _comparisonType);
-		}
-
-		public int LastIndexOf(string value, int startIndex, int count)
-		{
-			return Value.LastIndexOf(value, startIndex, count, _comparisonType);
-		}
-
-		public bool StartsWith(string value)
-		{
-			return Value.StartsWith(value, _comparisonType);
-		}
+		public bool EndsWith(string value) => Value.EndsWith(value, _comparisonType);
+		public int IndexOf(string value) => Value.IndexOf(value, _comparisonType);
+		public int IndexOf(string value, int startIndex) => Value.IndexOf(value, startIndex, _comparisonType);
+		public int IndexOf(string value, int startIndex, int count) => Value.IndexOf(value, startIndex, count, _comparisonType);
+		public int LastIndexOf(string value) => Value.LastIndexOf(value, _comparisonType);
+		public int LastIndexOf(string value, int startIndex) => Value.LastIndexOf(value, startIndex, _comparisonType);
+		public int LastIndexOf(string value, int startIndex, int count) => Value.LastIndexOf(value, startIndex, count, _comparisonType);
+		public bool StartsWith(string value) => Value.StartsWith(value, _comparisonType);
 		#endregion
 
 	}
