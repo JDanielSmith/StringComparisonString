@@ -4,10 +4,14 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>CaseInsensitiveString</RootNamespace>
     <AssemblyName>JDanielSmith.System.CaseInsensitiveString</AssemblyName>
+    <LangVersion>8.0</LangVersion>
+    <!-- <NullableReferenceTypes>true</NullableReferenceTypes> -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>8.0</LangVersion>
+    <!-- <NullableReferenceTypes>true</NullableReferenceTypes> -->
     <WarningsAsErrors />
   </PropertyGroup>
 
