@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>JDanielSmith.CaseInsensitiveStringUnitTest</RootNamespace>
+
+    <AssemblyName>JDanielSmith.CaseInsensitiveStringUnitTest</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
