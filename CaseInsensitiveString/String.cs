@@ -17,10 +17,10 @@ namespace JDanielSmith.System
 	public sealed class String<TComparison> : IComparable, ICloneable,
 		IComparable<String<TComparison>>, IEquatable<String<TComparison>>,
 		IComparable<String>, IEquatable<String>
-		where TComparison : StringComparerAndComparison, new()
+		where TComparison : StringComparison, new()
 	{
-		static readonly StringComparerAndComparison _comparerAndComparison = new TComparison();
-		static readonly StringComparison _comparisonType = _comparerAndComparison.Comparison;
+		static readonly StringComparison _comparison = new TComparison();
+		static readonly global::System.StringComparison _comparisonType = _comparison.Comparison;
 		static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
 
 		public string Value { get; }

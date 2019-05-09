@@ -1,23 +1,13 @@
-﻿using System;
-
-using StringComparer = System.StringComparer;
-using StringComparison = System.StringComparison;
-
-namespace JDanielSmith.System
+﻿namespace JDanielSmith.System
 {
 	/// <summary>
-	/// Pass around System.StringComparer and System.StringComparison together.
-	/// Also, provides a base class for generics.
+	/// "Convert" System.StringComparison values into types so they can be used as a generic argument
 	/// </summary>
-	public abstract class StringComparerAndComparison
+	public abstract class StringComparison
 	{
-		internal StringComparer Comparer { get; }
-		internal StringComparison Comparison { get; }
-		internal StringComparerAndComparison(StringComparer comparer, StringComparison comparison)
+		internal global::System.StringComparison Comparison { get; }
+		internal StringComparison(global::System.StringComparison comparison)
 		{
-			if (comparer == null) throw new ArgumentNullException(nameof(comparer));
-
-			Comparer = comparer;
 			Comparison = comparison;
 		}
 	}
@@ -25,51 +15,51 @@ namespace JDanielSmith.System
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules and the current culture.
 	/// </summary>
-	public sealed class CurrentCulture : StringComparerAndComparison
+	public sealed class CurrentCulture : StringComparison
 	{
-		public CurrentCulture() : base(StringComparer.CurrentCulture, StringComparison.CurrentCulture) { }
+		public CurrentCulture() : base(global::System.StringComparison.CurrentCulture) { }
 	}
 
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules, the current culture, and
 	/// ignoring the case of the strings being compared.
 	/// </summary>
-	public sealed class CurrentCultureIgnoreCase : StringComparerAndComparison
+	public sealed class CurrentCultureIgnoreCase : StringComparison
 	{
-		public CurrentCultureIgnoreCase() : base(StringComparer.CurrentCultureIgnoreCase, StringComparison.CurrentCultureIgnoreCase) { }
+		public CurrentCultureIgnoreCase() : base(global::System.StringComparison.CurrentCultureIgnoreCase) { }
 	}
 
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules and the invariant culture.
 	/// </summary>
-	public sealed class InvariantCulture : StringComparerAndComparison
+	public sealed class InvariantCulture : StringComparison
 	{
-		public InvariantCulture() : base(StringComparer.InvariantCulture, StringComparison.InvariantCulture) { }
+		public InvariantCulture() : base(global::System.StringComparison.InvariantCulture) { }
 	}
 
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules, the invariant culture, and
 	/// ignoring the case of the strings being compared.
 	/// </summary>
-	public sealed class InvariantCultureIgnoreCase : StringComparerAndComparison
+	public sealed class InvariantCultureIgnoreCase : StringComparison
 	{
-		public InvariantCultureIgnoreCase() : base(StringComparer.InvariantCultureIgnoreCase, StringComparison.InvariantCultureIgnoreCase) { }
+		public InvariantCultureIgnoreCase() : base(global::System.StringComparison.InvariantCultureIgnoreCase) { }
 	}
 
 	/// <summary>
 	/// Compare strings using ordinal sort rules.
 	/// </summary>
-	public sealed class Ordinal : StringComparerAndComparison
+	public sealed class Ordinal : StringComparison
 	{
-		public Ordinal() : base(StringComparer.Ordinal, StringComparison.Ordinal) { }
+		public Ordinal() : base(global::System.StringComparison.Ordinal) { }
 	}
 
 	/// <summary>
 	/// Compare strings using ordinal sort rules and ignoring the case of the strings
 	/// being compared.
 	/// </summary>
-	public sealed class OrdinalIgnoreCase : StringComparerAndComparison
+	public sealed class OrdinalIgnoreCase : StringComparison
 	{
-		public OrdinalIgnoreCase() : base(StringComparer.OrdinalIgnoreCase, StringComparison.OrdinalIgnoreCase) { }
+		public OrdinalIgnoreCase() : base(global::System.StringComparison.OrdinalIgnoreCase) { }
 	}
 }
