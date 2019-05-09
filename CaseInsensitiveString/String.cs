@@ -14,14 +14,14 @@ namespace JDanielSmith.System
 	/// </summary>
 	[CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "String")]
 	[CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes")]
-	public sealed class String<TComparerAndComparison> : IComparable, ICloneable,
-		IComparable<String<TComparerAndComparison>>, IEquatable<String<TComparerAndComparison>>,
+	public sealed class String<TComparison> : IComparable, ICloneable,
+		IComparable<String<TComparison>>, IEquatable<String<TComparison>>,
 		IComparable<String>, IEquatable<String>
-		where TComparerAndComparison : StringComparerAndComparison, new()
+		where TComparison : StringComparerAndComparison, new()
 	{
-		static readonly StringComparerAndComparison _comparerAndComparison = new TComparerAndComparison();
-		static readonly StringComparer _comparer = _comparerAndComparison.Comparer;
+		static readonly StringComparerAndComparison _comparerAndComparison = new TComparison();
 		static readonly StringComparison _comparisonType = _comparerAndComparison.Comparison;
+		static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
 
 		public string Value { get; }
 
@@ -32,8 +32,8 @@ namespace JDanielSmith.System
 		}
 
 		// easily convert to/from System.String
-		public static implicit operator String<TComparerAndComparison>(string source) => new String<TComparerAndComparison>(source);
-		public static implicit operator string(String<TComparerAndComparison> source) => source?.Value;
+		public static implicit operator String<TComparison>(string source) => new String<TComparison>(source);
+		public static implicit operator string(String<TComparison> source) => source?.Value;
 
 		#region Equals, IEquatable
 		public override bool Equals(object obj)
@@ -41,7 +41,7 @@ namespace JDanielSmith.System
 			if (Object.ReferenceEquals(obj, null))
 				return false; // this != null
 
-			var other = obj as String<TComparerAndComparison>;
+			var other = obj as String<TComparison>;
 			if (!Object.ReferenceEquals(other, null))
 				return Equals(other); // call Equals(String<TStringComparerAndComparison>)
 
@@ -51,7 +51,7 @@ namespace JDanielSmith.System
 
 			return _comparer.Equals(obj);
 		}
-		public bool Equals(String<TComparerAndComparison> other)
+		public bool Equals(String<TComparison> other)
 		{
 			if (Object.ReferenceEquals(other, null))
 				return false; // this != null
@@ -63,7 +63,7 @@ namespace JDanielSmith.System
 
 		public override string ToString() => Value;
 
-		public object Clone() => new String<TComparerAndComparison>(Value);
+		public object Clone() => new String<TComparison>(Value);
 
 		#region IComparable
 		public int CompareTo(object obj)
@@ -73,19 +73,19 @@ namespace JDanielSmith.System
 				return 1; // If other is not a valid object reference, this instance is greater.
 
 			// obj must be either StringOrdinalIgnoreCase or String
-			var other = obj as String<TComparerAndComparison>;
+			var other = obj as String<TComparison>;
 			if (Object.ReferenceEquals(other, null))
 			{
 				var s_other = obj as string;
 				if (Object.ReferenceEquals(s_other, null))
-					throw new ArgumentException("Object must be of type " + nameof(String<TComparerAndComparison>) + " or String.");
+					throw new ArgumentException("Object must be of type " + nameof(String<TComparison>) + " or String.");
 
 				return CompareTo(s_other); // call CompareTo(string)
 			}
 
 			return CompareTo(other); // call CompareTo(StringOrdinalIgnoreCase)
 		}
-		public int CompareTo(String<TComparerAndComparison> other)
+		public int CompareTo(String<TComparison> other)
 		{
 			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
 			if (Object.ReferenceEquals(other, null))
@@ -105,22 +105,22 @@ namespace JDanielSmith.System
 			return _comparer.Compare(Value, other);
 		}
 
-		public static bool operator ==(String<TComparerAndComparison> x, String<TComparerAndComparison> y)
+		public static bool operator ==(String<TComparison> x, String<TComparison> y)
 		{
 			if (Object.ReferenceEquals(x, null))
 				return Object.ReferenceEquals(y, null); // null == null, null != something
 			return x.Equals(y); // know x != null
 		}
-		public static bool operator ==(String<TComparerAndComparison> x, string y)
+		public static bool operator ==(String<TComparison> x, string y)
 		{
 			if (Object.ReferenceEquals(x, null))
 				return Object.ReferenceEquals(y, null); // null == null, null != something
 			return x.Equals(y); // know x != null
 		}
-		public static bool operator ==(string x, String<TComparerAndComparison> y) => y == x; // == is commutative, x == y
-		public static bool operator !=(String<TComparerAndComparison> x, String<TComparerAndComparison> y) => !(x == y);
-		public static bool operator !=(string x, String<TComparerAndComparison> y) => !(x == y);
-		public static bool operator !=(String<TComparerAndComparison> x, string y) => !(x == y);
+		public static bool operator ==(string x, String<TComparison> y) => y == x; // == is commutative, x == y
+		public static bool operator !=(String<TComparison> x, String<TComparison> y) => !(x == y);
+		public static bool operator !=(string x, String<TComparison> y) => !(x == y);
+		public static bool operator !=(String<TComparison> x, string y) => !(x == y);
 		#endregion
 
 		#region IndexOf, LastIndexOf, StartsWith, EndsWith
