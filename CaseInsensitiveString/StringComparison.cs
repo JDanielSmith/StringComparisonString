@@ -5,7 +5,7 @@
 	/// </summary>
 	public abstract class StringComparison
 	{
-		internal global::System.StringComparison Comparison { get; }
+		public global::System.StringComparison Comparison { get; }
 		internal StringComparison(global::System.StringComparison comparison)
 		{
 			Comparison = comparison;

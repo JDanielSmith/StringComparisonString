@@ -38,22 +38,22 @@ namespace JDanielSmith.System
 		#region Equals, IEquatable
 		public override bool Equals(object obj)
 		{
-			if (Object.ReferenceEquals(obj, null))
+			if (obj is null)
 				return false; // this != null
 
 			var other = obj as String<TComparison>;
-			if (!Object.ReferenceEquals(other, null))
+			if (!(other is null))
 				return Equals(other); // call Equals(String<TStringComparerAndComparison>)
 
 			var s_other = obj as string;
-			if (!Object.ReferenceEquals(s_other, null))
+			if (!(s_other is null))
 				return Equals(s_other); // call Equals(string)
 
 			return _comparer.Equals(obj);
 		}
 		public bool Equals(String<TComparison> other)
 		{
-			if (Object.ReferenceEquals(other, null))
+			if (other is null)
 				return false; // this != null
 			return Equals(other.Value); // call Equals(string)
 		}
@@ -69,15 +69,15 @@ namespace JDanielSmith.System
 		public int CompareTo(object obj)
 		{
 			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
-			if (Object.ReferenceEquals(obj, null))
+			if (obj is null)
 				return 1; // If other is not a valid object reference, this instance is greater.
 
 			// obj must be either StringOrdinalIgnoreCase or String
 			var other = obj as String<TComparison>;
-			if (Object.ReferenceEquals(other, null))
+			if (other is null)
 			{
 				var s_other = obj as string;
-				if (Object.ReferenceEquals(s_other, null))
+				if (s_other is null)
 					throw new ArgumentException("Object must be of type " + nameof(String<TComparison>) + " or String.");
 
 				return CompareTo(s_other); // call CompareTo(string)
@@ -88,7 +88,7 @@ namespace JDanielSmith.System
 		public int CompareTo(String<TComparison> other)
 		{
 			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
-			if (Object.ReferenceEquals(other, null))
+			if (other is null)
 				return 1; // If other is not a valid object reference, this instance is greater.
 
 			if (Object.ReferenceEquals(Value, other.Value))
@@ -99,7 +99,7 @@ namespace JDanielSmith.System
 		public int CompareTo(string other)
 		{
 			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
-			if (Object.ReferenceEquals(other, null))
+			if (other is null)
 				return 1; // If other is not a valid object reference, this instance is greater.
 
 			return _comparer.Compare(Value, other);
@@ -107,14 +107,14 @@ namespace JDanielSmith.System
 
 		public static bool operator ==(String<TComparison> x, String<TComparison> y)
 		{
-			if (Object.ReferenceEquals(x, null))
-				return Object.ReferenceEquals(y, null); // null == null, null != something
+			if (x is null)
+				return (y is null); // null == null, null != something
 			return x.Equals(y); // know x != null
 		}
 		public static bool operator ==(String<TComparison> x, string y)
 		{
-			if (Object.ReferenceEquals(x, null))
-				return Object.ReferenceEquals(y, null); // null == null, null != something
+			if (x is null)
+				return (y is null); // null == null, null != something
 			return x.Equals(y); // know x != null
 		}
 		public static bool operator ==(string x, String<TComparison> y) => y == x; // == is commutative, x == y
