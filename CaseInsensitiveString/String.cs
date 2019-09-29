@@ -14,7 +14,9 @@ namespace JDanielSmith.System
 	/// </summary>
 	[CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "String")]
 	[CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1036:OverrideMethodsOnComparableTypes")]
+#pragma warning disable CA1720 // Identifier contains type name
 	public sealed class String<TComparison> : IComparable, ICloneable,
+#pragma warning restore CA1720 // Identifier contains type name
 		IComparable<String<TComparison>>, IEquatable<String<TComparison>>,
 		IComparable<String>, IEquatable<String>
 		where TComparison : StringComparison, new()
@@ -33,10 +35,10 @@ namespace JDanielSmith.System
 
 		// easily convert to/from System.String
 		public static implicit operator String<TComparison>(string source) => new String<TComparison>(source);
-		public static implicit operator string(String<TComparison> source) => source?.Value;
-
+		public static implicit operator string?(String<TComparison>? source) => source?.Value;
+	
 		#region Equals, IEquatable
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (obj is null)
 				return false; // this != null
@@ -66,7 +68,7 @@ namespace JDanielSmith.System
 		public object Clone() => new String<TComparison>(Value);
 
 		#region IComparable
-		public int CompareTo(object obj)
+		public int CompareTo(object? obj)
 		{
 			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
 			if (obj is null)
@@ -78,7 +80,9 @@ namespace JDanielSmith.System
 			{
 				var s_other = obj as string;
 				if (s_other is null)
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
 					throw new ArgumentException("Object must be of type " + nameof(String<TComparison>) + " or String.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
 
 				return CompareTo(s_other); // call CompareTo(string)
 			}
