@@ -16,8 +16,8 @@ namespace JDanielSmith.System
 	/// </summary>
 	public sealed class StringComparisonString<TStringComparison> :
 		ICloneable,
-		IEquatable<String>,  IEquatable<StringComparisonString<TStringComparison>>
-		//IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
+		IEquatable<String>,  IEquatable<StringComparisonString<TStringComparison>>,
+		IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
 	where TStringComparison : StringComparison, new()
 	{
 		static readonly global::System.StringComparison _comparisonType = new TStringComparison().Comparison;
@@ -84,6 +84,102 @@ namespace JDanielSmith.System
 		public static bool operator !=(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y) => !(x == y);
 		public static bool operator !=(string x, StringComparisonString<TStringComparison> y) => !(x == y);
 		public static bool operator !=(StringComparisonString<TStringComparison> x, string y) => !(x == y);
+		#endregion
+
+		#region IComparable
+		public int CompareTo(object? obj)
+		{
+			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
+			if (ReferenceEquals(obj, null))
+				return 1; // If other is not a valid object reference, this instance is greater.
+
+			// obj must be either StringOrdinalIgnoreCase or String
+			var other = obj as StringComparisonString<TStringComparison>;
+			if (ReferenceEquals(other, null))
+			{
+				var s_other = obj as string;
+				if (ReferenceEquals(s_other, null))
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+					throw new ArgumentException("Object must be of type " + nameof(StringComparisonString<TStringComparison>) + " or String.");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
+
+				return CompareTo(s_other); // call CompareTo(string)
+			}
+
+			return CompareTo(other); // call CompareTo(StringOrdinalIgnoreCase)
+		}
+		public int CompareTo(StringComparisonString<TStringComparison>? other)
+		{
+			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
+			if (ReferenceEquals(other, null))
+				return 1; // If other is not a valid object reference, this instance is greater.
+
+			if (ReferenceEquals(Value, other.Value))
+				return 0;
+
+			return CompareTo(other.Value); // call CompareTo(string)
+		}
+		public int CompareTo(string? other)
+		{
+			// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
+			if (ReferenceEquals(other, null))
+				return 1; // If other is not a valid object reference, this instance is greater.
+
+			return _comparer.Compare(Value, other);
+		}
+
+		public static bool operator <(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+		}
+		public static bool operator <(StringComparisonString<TStringComparison> left, string right)
+		{
+			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+		}
+		public static bool operator <(string left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : new StringComparisonString<TStringComparison>(left) < right;
+		}
+
+		public static bool operator <=(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+		}
+		public static bool operator <=(StringComparisonString<TStringComparison> left, string right)
+		{
+			return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+		}
+		public static bool operator <=(string left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) || new StringComparisonString<TStringComparison>(left) <= right;
+		}
+
+		public static bool operator >(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
+		{
+			return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+		}
+		public static bool operator >(StringComparisonString<TStringComparison> left, string right)
+		{
+			return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+		}
+		public static bool operator >(string left, StringComparisonString<TStringComparison> right)
+		{
+			return !ReferenceEquals(left, null) && new StringComparisonString<TStringComparison>(left) > right;
+		}
+
+		public static bool operator >=(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+		}
+		public static bool operator >=(StringComparisonString<TStringComparison> left, string right)
+		{
+			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+		}
+		public static bool operator >=(string left, StringComparisonString<TStringComparison> right)
+		{
+			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : new StringComparisonString<TStringComparison>(left) >= right;
+		}
+
 		#endregion
 
 		#region IndexOf, LastIndexOf, StartsWith, EndsWith
