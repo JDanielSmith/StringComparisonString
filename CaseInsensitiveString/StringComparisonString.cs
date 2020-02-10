@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace JDanielSmith.System
@@ -14,13 +15,13 @@ namespace JDanielSmith.System
 	/// Some hints from: http://stackoverflow.com/questions/33039324/how-can-system-string-be-properly-wrapped-for-case-insensitivy
 	/// </summary>
 	public sealed class StringComparisonString<TStringComparison> :
-		ICloneable
-	//	IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>,
-	// IEquatable<String>,  IEquatable<StringComparisonString<TStringComparison>>,
+		ICloneable,
+		IEquatable<String>,  IEquatable<StringComparisonString<TStringComparison>>
+		//IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
 	where TStringComparison : StringComparison, new()
 	{
-		//static readonly global::System.StringComparison _comparisonType = new TStringComparison().Comparison;
-		//static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
+		static readonly global::System.StringComparison _comparisonType = new TStringComparison().Comparison;
+		static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
 
 		public string Value { get; }
 		public StringComparisonString(string value)
@@ -41,5 +42,59 @@ namespace JDanielSmith.System
 		public StringComparisonString<TStringComparison> ToStringComparisonString(string source) => new StringComparisonString<TStringComparison>(source);
 
 		public static implicit operator string?(StringComparisonString<TStringComparison>? source) => source?.Value;
+
+		#region Equals, IEquatable
+		public override bool Equals(object? obj)
+		{
+			if (obj is null)
+				return false; // this != null
+
+			var other = obj as StringComparisonString<TStringComparison>;
+			if (!(other is null))
+				return Equals(other); // call Equals(StringComparisonString<TStringComparison>)
+
+			var s_other = obj as string;
+			if (!(s_other is null))
+				return Equals(s_other); // call Equals(string)
+
+			return _comparer.Equals(obj);
+		}
+		public bool Equals(StringComparisonString<TStringComparison> other)
+		{
+			if (other is null)
+				return false; // this != null
+			return Equals(other.Value); // call Equals(string)
+		}
+		public bool Equals(string other) => _comparer.Equals(Value, other);
+		public override int GetHashCode() => _comparer.GetHashCode(Value);
+
+		public static bool operator ==(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y)
+		{
+			if (x is null)
+				return (y is null); // null == null, null != something
+			return x.Equals(y); // know x != null
+		}
+		public static bool operator ==(StringComparisonString<TStringComparison> x, string y)
+		{
+			if (x is null)
+				return (y is null); // null == null, null != something
+			return x.Equals(y); // know x != null
+		}
+		public static bool operator ==(string x, StringComparisonString<TStringComparison> y) => y == x; // == is commutative, x == y
+		public static bool operator !=(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y) => !(x == y);
+		public static bool operator !=(string x, StringComparisonString<TStringComparison> y) => !(x == y);
+		public static bool operator !=(StringComparisonString<TStringComparison> x, string y) => !(x == y);
+		#endregion
+
+		#region IndexOf, LastIndexOf, StartsWith, EndsWith
+		public bool EndsWith(string value) => Value.EndsWith(value, _comparisonType);
+		public int IndexOf(string value) => Value.IndexOf(value, _comparisonType);
+		public int IndexOf(string value, int startIndex) => Value.IndexOf(value, startIndex, _comparisonType);
+		public int IndexOf(string value, int startIndex, int count) => Value.IndexOf(value, startIndex, count, _comparisonType);
+		public int LastIndexOf(string value) => Value.LastIndexOf(value, _comparisonType);
+		public int LastIndexOf(string value, int startIndex) => Value.LastIndexOf(value, startIndex, _comparisonType);
+		public int LastIndexOf(string value, int startIndex, int count) => Value.LastIndexOf(value, startIndex, count, _comparisonType);
+		public bool StartsWith(string value) => Value.StartsWith(value, _comparisonType);
+		#endregion
 	}
 }
