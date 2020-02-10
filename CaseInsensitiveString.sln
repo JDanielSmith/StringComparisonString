@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaseInsensitiveString", "CaseInsensitiveString\CaseInsensitiveString.csproj", "{6E0D9942-9867-4639-B3FC-D035B2DCC48D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseInsensitiveStringUnitTest", "CaseInsensitiveStringUnitTest\CaseInsensitiveStringUnitTest.csproj", "{53D418FF-0A17-4D09-86ED-A81B12283D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaseInsensitiveStringUnitTest", "CaseInsensitiveStringUnitTest\CaseInsensitiveStringUnitTest.csproj", "{53D418FF-0A17-4D09-86ED-A81B12283D8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
