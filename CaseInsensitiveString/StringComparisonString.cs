@@ -28,19 +28,14 @@ namespace JDanielSmith.System
 		{
 			Value = value ?? String.Empty;
 		}
-		public StringComparisonString(char[] value) : this (new String(value)) 	{	}
-		public StringComparisonString(ReadOnlySpan<char> value) : this(new String(value)) { }
-		public StringComparisonString(char c, int count) : this(new String(c, count)) { }
-		public StringComparisonString(char[] value, int startIndex, int length) : this(new String(value, startIndex, length)) { }
 
 		public override string ToString() => Value;
+		public char this[int index] { get => Value[index]; }
+		public int Length { get => Value.Length; }
 
 		public object Clone() => new StringComparisonString<TStringComparison>(Value);
 
-		// easily convert to/from System.String
-		public static implicit operator StringComparisonString<TStringComparison>(string source) => new StringComparisonString<TStringComparison>(source);
-		public StringComparisonString<TStringComparison> ToStringComparisonString(string source) => new StringComparisonString<TStringComparison>(source);
-
+		// easily convert to System.String
 		public static implicit operator string?(StringComparisonString<TStringComparison>? source) => source?.Value;
 
 		#region Equals, IEquatable
@@ -138,7 +133,7 @@ namespace JDanielSmith.System
 		}
 		public static bool operator <(string left, StringComparisonString<TStringComparison> right)
 		{
-			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : new StringComparisonString<TStringComparison>(left) < right;
+			return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : !(right >= left);
 		}
 
 		public static bool operator <=(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
@@ -151,7 +146,7 @@ namespace JDanielSmith.System
 		}
 		public static bool operator <=(string left, StringComparisonString<TStringComparison> right)
 		{
-			return ReferenceEquals(left, null) || new StringComparisonString<TStringComparison>(left) <= right;
+			return ReferenceEquals(left, null) || !(right > left);
 		}
 
 		public static bool operator >(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
@@ -164,7 +159,7 @@ namespace JDanielSmith.System
 		}
 		public static bool operator >(string left, StringComparisonString<TStringComparison> right)
 		{
-			return !ReferenceEquals(left, null) && new StringComparisonString<TStringComparison>(left) > right;
+			return !ReferenceEquals(left, null) && !(left <= right);
 		}
 
 		public static bool operator >=(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
@@ -177,20 +172,94 @@ namespace JDanielSmith.System
 		}
 		public static bool operator >=(string left, StringComparisonString<TStringComparison> right)
 		{
-			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : new StringComparisonString<TStringComparison>(left) >= right;
+			return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : !(left < right);
 		}
-
 		#endregion
 
-		#region IndexOf, LastIndexOf, StartsWith, EndsWith
+		#region Contains, EndsWith, IndexOf, LastIndexOf, Replace StartsWith
+
+		public bool Contains(String value) => Value.Contains(value, _comparisonType);
+		public bool Contains(char value) => Value.Contains(value, _comparisonType);
+
+
 		public bool EndsWith(string value) => Value.EndsWith(value, _comparisonType);
+		
 		public int IndexOf(string value) => Value.IndexOf(value, _comparisonType);
 		public int IndexOf(string value, int startIndex) => Value.IndexOf(value, startIndex, _comparisonType);
 		public int IndexOf(string value, int startIndex, int count) => Value.IndexOf(value, startIndex, count, _comparisonType);
+		public int IndexOf(char value) => Value.IndexOf(value, _comparisonType);
+		
 		public int LastIndexOf(string value) => Value.LastIndexOf(value, _comparisonType);
 		public int LastIndexOf(string value, int startIndex) => Value.LastIndexOf(value, startIndex, _comparisonType);
 		public int LastIndexOf(string value, int startIndex, int count) => Value.LastIndexOf(value, startIndex, count, _comparisonType);
+
+		public string Replace(string oldValue, string? newValue) => Value.Replace(oldValue, newValue, _comparisonType);
+
 		public bool StartsWith(string value) => Value.StartsWith(value, _comparisonType);
+
 		#endregion
+	}
+
+	public static class StringComparisonString
+	{
+		public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+		{
+			return String.Compare(strA?.Value, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
+		}
+		public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, string? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+		{
+			return String.Compare(strA?.Value, indexA, strB, indexB, length, new TStringComparison().Comparison);
+		}
+		public static int Compare<TStringComparison>(string? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+		{
+			return String.Compare(strA, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
+		}
+
+		public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison, new()
+		{
+			if (ReferenceEquals(strA, null))
+			{
+				return ReferenceEquals(strB, null) ? 0 : -1; // If strB is a valid object reference, that instance is greater.
+			}
+			return strA.CompareTo(strB);
+		}
+		public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, string? strB) where TStringComparison : StringComparison, new()
+		{
+			if (ReferenceEquals(strA, null))
+			{
+				return ReferenceEquals(strB, null) ? 0 : -1; // If strB is a valid object reference, that instance is greater.
+			}
+			return strA.CompareTo(strB);
+		}
+		public static int Compare<TStringComparison>(string? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison, new()
+		{
+			return -1 * Compare(strB, strA);
+		}
+
+		public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison, new()
+		{
+			if (ReferenceEquals(a, null))
+			{
+				return ReferenceEquals(b, null); // Equals(null, null) == true
+			}
+			return ReferenceEquals(b, null) ? false : a.Equals(b);
+		}
+		public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, string? b) where TStringComparison : StringComparison, new()
+		{
+			if (ReferenceEquals(a, null))
+			{
+				return ReferenceEquals(b, null); // Equals(null, null) == true
+			}
+			return ReferenceEquals(b, null) ? false : a.Equals(b);
+		}
+		public static bool Equals<TStringComparison>(string? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison, new()
+		{
+			return Equals(b, a);
+		}
+
+		public static int GetHashCode<TStringComparison>(ReadOnlySpan<char> value) where TStringComparison : StringComparison, new()
+		{
+			return String.GetHashCode(value, new TStringComparison().Comparison);
+		}
 	}
 }
