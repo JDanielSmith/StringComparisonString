@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <AssemblyName>JDanielSmith.System.CaseInsensitiveString</AssemblyName>
+    <AssemblyName>JDanielSmith.System.StringComparisonString</AssemblyName>
     <RootNamespace>JDanielSmith.System</RootNamespace>
     <RepositoryUrl>https://github.com/JDanielSmith/CaseInsensitiveString.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JDanielSmith/CaseInsensitiveString</PackageProjectUrl>
