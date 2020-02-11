@@ -7,7 +7,7 @@ namespace JDanielSmith.System
 {
 	/// <summary>
 	/// Provide a wrapper around System.String which automatically uses TStringComparison instead of having
-	/// to explictly specify a System.StringComparison value.
+	/// to explicitly specify a System.StringComparison value.
 	/// 
 	/// This is especially useful when using strings as keys in collections, where the key is something like a Windows file-system pathname;
 	/// it can be easy to forget to pass an IEqualityComparer<> in the constructor.
@@ -35,7 +35,9 @@ namespace JDanielSmith.System
 
 		public object Clone() => new StringComparisonString<TStringComparison>(Value);
 
-		// easily convert to System.String
+		// easily convert to/from System.String
+		public static implicit operator StringComparisonString<TStringComparison>(string source) => new StringComparisonString<TStringComparison>(source);
+		public StringComparisonString<TStringComparison> FromString(string source) => new StringComparisonString<TStringComparison>(source);
 		public static implicit operator string?(StringComparisonString<TStringComparison>? source) => source?.Value;
 
 		#region Equals, IEquatable
@@ -202,6 +204,11 @@ namespace JDanielSmith.System
 
 	public static class StringComparisonString
 	{
+		public static StringComparisonString<TStringComparison> FromString<TStringComparison>(string source) where TStringComparison : StringComparison, new()
+		{
+			return new StringComparisonString<TStringComparison>(source);
+		}
+
 		public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison, new()
 		{
 			return String.Compare(strA?.Value, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);

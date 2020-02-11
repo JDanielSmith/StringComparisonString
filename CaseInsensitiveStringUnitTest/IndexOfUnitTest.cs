@@ -7,7 +7,7 @@ namespace CaseInsenstiveStringUnitTest
 	[TestClass]
 	public class IndexOfUnitTest
 	{
-		static readonly String<OrdinalIgnoreCase> abcABC = new String<OrdinalIgnoreCase>("abcABC");
+		static readonly StringComparisonString<OrdinalIgnoreCase> abcABC = new StringComparisonString<OrdinalIgnoreCase>("abcABC");
 
 		[TestMethod]
 		public void TestIndexOf()

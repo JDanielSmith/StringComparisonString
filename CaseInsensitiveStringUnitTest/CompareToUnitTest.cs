@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using StringOrdinalIgnoreCase = JDanielSmith.System.String<JDanielSmith.System.OrdinalIgnoreCase>;
+using StringOrdinalIgnoreCase = JDanielSmith.System.StringComparisonString<JDanielSmith.System.OrdinalIgnoreCase>;
 
 namespace CaseInsenstiveStringUnitTest
 {
