@@ -114,6 +114,70 @@ namespace CaseInsenstiveStringUnitTest
 			CompareTo(0, a, A, s => (string)s);
 			CompareTo(0, A, a, s => (string)s);
 			CompareTo(0, A, A, s => (string)s);
+
+			Assert.IsTrue(a == A);
+		}
+
+		[TestMethod]
+		public void StringOrdinalIgnoreCaseComparisionOperators()
+		{
+			StringOrdinalIgnoreCase a = "a";
+			StringOrdinalIgnoreCase b = "b";
+			StringOrdinalIgnoreCase A = "A";
+	
+			Assert.IsTrue(a == A);
+			Assert.IsTrue(A == a);
+
+			Assert.IsTrue(a < b);
+			Assert.IsTrue(A < b);
+			Assert.IsTrue(a <= b);
+			Assert.IsTrue(A <= b);
+
+			Assert.IsFalse(b < a);
+			Assert.IsFalse(b < A);
+			Assert.IsFalse(b <= a);
+			Assert.IsFalse(b <= A);
+
+			Assert.IsTrue(b > a);
+			Assert.IsTrue(b > A);
+			Assert.IsTrue(b >= a);
+			Assert.IsTrue(b >= A);
+
+			Assert.IsFalse(a > b);
+			Assert.IsFalse(A > b);
+			Assert.IsFalse(a >= b);
+			Assert.IsFalse(A >= b);
+		}
+
+		[TestMethod]
+		public void StringOrdinalIgnoreCaseComparisionOperatorsNull()
+		{
+			StringOrdinalIgnoreCase a = "a";
+			StringOrdinalIgnoreCase b = null;
+			StringOrdinalIgnoreCase A = null;
+
+			Assert.IsFalse(a == A);
+			Assert.IsFalse(A == a);
+
+			Assert.IsFalse(a < b);
+			Assert.IsFalse(A < b);
+			Assert.IsFalse(a <= b);
+			Assert.IsTrue(A <= b);
+
+			Assert.IsTrue(b < a);
+			Assert.IsFalse(b < A);
+			Assert.IsTrue(b <= a);
+			Assert.IsTrue(b <= A);
+
+			Assert.IsFalse(b > a);
+			Assert.IsFalse(b > A);
+			Assert.IsFalse(b >= a);
+			Assert.IsTrue(b >= A);
+
+			Assert.IsTrue(a > b);
+			Assert.IsFalse(A > b);
+			Assert.IsTrue(a >= b);
+			Assert.IsTrue(A >= b);
 		}
 	}
 }
