@@ -7,7 +7,7 @@ namespace StringComparisonStringUnitTest;
 [TestClass]
 public class IndexOfUnitTest
 {
-	static readonly StringComparisonString<OrdinalIgnoreCase> abcABC = new StringComparisonString<OrdinalIgnoreCase>("abcABC");
+	static readonly StringComparisonString<StringComparison.OrdinalIgnoreCase> abcABC = new("abcABC");
 
 	[TestMethod]
 	public void TestIndexOf()

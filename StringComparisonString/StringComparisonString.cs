@@ -17,7 +17,7 @@ public sealed class StringComparisonString<TStringComparison> :
 	ICloneable,
 	IEquatable<String?>,  IEquatable<StringComparisonString<TStringComparison>?>,
 	IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
-where TStringComparison : StringComparison, new()
+where TStringComparison : StringComparison.IStringComparison, new()
 {
 	static readonly global::System.StringComparison _comparisonType = new TStringComparison().Comparison;
 	static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
@@ -35,8 +35,8 @@ where TStringComparison : StringComparison, new()
 	public object Clone() => new StringComparisonString<TStringComparison>(Value);
 
 	// easily convert to/from System.String
-	public static implicit operator StringComparisonString<TStringComparison>(string source) => new StringComparisonString<TStringComparison>(source);
-	public StringComparisonString<TStringComparison> FromString(string source) => new StringComparisonString<TStringComparison>(source);
+	public static implicit operator StringComparisonString<TStringComparison>(string source) => new(source);
+	public StringComparisonString<TStringComparison> FromString(string source) => new(source);
 	public static implicit operator string?(StringComparisonString<TStringComparison>? source) => source?.Value;
 
 	#region Equals, IEquatable
@@ -203,25 +203,25 @@ where TStringComparison : StringComparison, new()
 
 public static class StringComparisonString
 {
-	public static StringComparisonString<TStringComparison> FromString<TStringComparison>(string source) where TStringComparison : StringComparison, new()
+	public static StringComparisonString<TStringComparison> FromString<TStringComparison>(string source) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return new StringComparisonString<TStringComparison>(source);
 	}
 
-	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return String.Compare(strA?.Value, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
 	}
-	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, string? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, string? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return String.Compare(strA?.Value, indexA, strB, indexB, length, new TStringComparison().Comparison);
 	}
-	public static int Compare<TStringComparison>(string? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(string? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return String.Compare(strA, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
 	}
 
-	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		if (strA is null)
 		{
@@ -229,7 +229,7 @@ public static class StringComparisonString
 		}
 		return strA.CompareTo(strB);
 	}
-	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, string? strB) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, string? strB) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		if (strA is null)
 		{
@@ -237,12 +237,12 @@ public static class StringComparisonString
 		}
 		return strA.CompareTo(strB);
 	}
-	public static int Compare<TStringComparison>(string? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison, new()
+	public static int Compare<TStringComparison>(string? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return -1 * Compare(strB, strA);
 	}
 
-	public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison, new()
+	public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		if (a is null)
 		{
@@ -250,7 +250,7 @@ public static class StringComparisonString
 		}
 		return b is null ? false : a.Equals(b);
 	}
-	public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, string? b) where TStringComparison : StringComparison, new()
+	public static bool Equals<TStringComparison>(StringComparisonString<TStringComparison>? a, string? b) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		if (a is null)
 		{
@@ -258,12 +258,12 @@ public static class StringComparisonString
 		}
 		return b is null ? false : a.Equals(b);
 	}
-	public static bool Equals<TStringComparison>(string? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison, new()
+	public static bool Equals<TStringComparison>(string? a, StringComparisonString<TStringComparison>? b) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return Equals(b, a);
 	}
 
-	public static int GetHashCode<TStringComparison>(ReadOnlySpan<char> value) where TStringComparison : StringComparison, new()
+	public static int GetHashCode<TStringComparison>(ReadOnlySpan<char> value) where TStringComparison : StringComparison.IStringComparison, new()
 	{
 		return String.GetHashCode(value, new TStringComparison().Comparison);
 	}

@@ -1,64 +1,65 @@
-﻿namespace JDanielSmith.System;
+﻿using SStringComparison = global::System.StringComparison;
 
-/// <summary>
-/// "Convert" System.StringComparison values into types so they can be used as a generic argument
-/// </summary>
-public abstract class StringComparison
+namespace JDanielSmith.System;
+
+public static class StringComparison
 {
-	public global::System.StringComparison Comparison { get; }
-	internal StringComparison(global::System.StringComparison comparison)
+	/// <summary>
+	/// "Convert" System.StringComparison values into types so they can be used as a generic argument
+	/// </summary>
+	public interface IStringComparison
 	{
-		Comparison = comparison;
+		SStringComparison Comparison { get; }
 	}
-}
 
-/// <summary>
-/// Compare strings using culture-sensitive sort rules and the current culture.
-/// </summary>
-public sealed class CurrentCulture : StringComparison
-{
-	public CurrentCulture() : base(global::System.StringComparison.CurrentCulture) { }
-}
+	/// <summary>
+	/// Compare strings using culture-sensitive sort rules and the current culture.
+	/// </summary>
+	public struct CurrentCulture : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.CurrentCulture;
+	}
 
-/// <summary>
-/// Compare strings using culture-sensitive sort rules, the current culture, and
-/// ignoring the case of the strings being compared.
-/// </summary>
-public sealed class CurrentCultureIgnoreCase : StringComparison
-{
-	public CurrentCultureIgnoreCase() : base(global::System.StringComparison.CurrentCultureIgnoreCase) { }
-}
+	/// <summary>
+	/// Compare strings using culture-sensitive sort rules, the current culture, and
+	/// ignoring the case of the strings being compared.
+	/// </summary>
+	public struct CurrentCultureIgnoreCase : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.CurrentCultureIgnoreCase;
+	}
 
-/// <summary>
-/// Compare strings using culture-sensitive sort rules and the invariant culture.
-/// </summary>
-public sealed class InvariantCulture : StringComparison
-{
-	public InvariantCulture() : base(global::System.StringComparison.InvariantCulture) { }
-}
+	/// <summary>
+	/// Compare strings using culture-sensitive sort rules and the invariant culture.
+	/// </summary>
+	public struct InvariantCulture : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.InvariantCulture;
+	}
 
-/// <summary>
-/// Compare strings using culture-sensitive sort rules, the invariant culture, and
-/// ignoring the case of the strings being compared.
-/// </summary>
-public sealed class InvariantCultureIgnoreCase : StringComparison
-{
-	public InvariantCultureIgnoreCase() : base(global::System.StringComparison.InvariantCultureIgnoreCase) { }
-}
+	/// <summary>
+	/// Compare strings using culture-sensitive sort rules, the invariant culture, and
+	/// ignoring the case of the strings being compared.
+	/// </summary>
+	public struct InvariantCultureIgnoreCase : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.InvariantCultureIgnoreCase;
+	}
 
-/// <summary>
-/// Compare strings using ordinal sort rules.
-/// </summary>
-public sealed class Ordinal : StringComparison
-{
-	public Ordinal() : base(global::System.StringComparison.Ordinal) { }
-}
+	/// <summary>
+	/// Compare strings using ordinal sort rules.
+	/// </summary>
+	public struct Ordinal : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.Ordinal;
+	}
 
-/// <summary>
-/// Compare strings using ordinal sort rules and ignoring the case of the strings
-/// being compared.
-/// </summary>
-public sealed class OrdinalIgnoreCase : StringComparison
-{
-	public OrdinalIgnoreCase() : base(global::System.StringComparison.OrdinalIgnoreCase) { }
+	/// <summary>
+	/// Compare strings using ordinal sort rules and ignoring the case of the strings
+	/// being compared.
+	/// </summary>
+	public struct OrdinalIgnoreCase : IStringComparison
+	{
+		public SStringComparison Comparison { get; } = SStringComparison.OrdinalIgnoreCase;
+	}
 }
