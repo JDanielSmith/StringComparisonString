@@ -19,8 +19,8 @@ public sealed class StringComparisonString<TStringComparison> :
 	IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
 where TStringComparison : StringComparison.IStringComparison
 {
-	static readonly global::System.StringComparison _comparisonType = TStringComparison.Comparison;
-	static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
+	static readonly global::System.StringComparison comparison_ = TStringComparison.Comparison;
+	static readonly StringComparer comparer_ = StringComparer.FromComparison(comparison_);
 
 	public string Value { get; }
 	public StringComparisonString(string value)
@@ -53,7 +53,7 @@ where TStringComparison : StringComparison.IStringComparison
 		if (s_other is not null)
 			return Equals(s_other); // call Equals(string)
 
-		return _comparer.Equals(obj);
+		return comparer_.Equals(obj);
 	}
 	public bool Equals(StringComparisonString<TStringComparison>? other)
 	{
@@ -61,8 +61,8 @@ where TStringComparison : StringComparison.IStringComparison
 			return false; // this != null
 		return Equals(other.Value); // call Equals(string)
 	}
-	public bool Equals(string? other) => _comparer.Equals(Value, other);
-	public override int GetHashCode() => _comparer.GetHashCode(Value);
+	public bool Equals(string? other) => comparer_.Equals(Value, other);
+	public override int GetHashCode() => comparer_.GetHashCode(Value);
 
 	public static bool operator ==(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y)
 	{
@@ -121,7 +121,7 @@ where TStringComparison : StringComparison.IStringComparison
 		if (other is null)
 			return 1; // If other is not a valid object reference, this instance is greater.
 
-		return _comparer.Compare(Value, other);
+		return comparer_.Compare(Value, other);
 	}
 
 	public static bool operator <(StringComparisonString<TStringComparison> left, StringComparisonString<TStringComparison> right)
@@ -179,24 +179,24 @@ where TStringComparison : StringComparison.IStringComparison
 
 	#region Contains, EndsWith, IndexOf, LastIndexOf, Replace, StartsWith
 
-	public bool Contains(String value) => Value.Contains(value, _comparisonType);
-	public bool Contains(char value) => Value.Contains(value, _comparisonType);
+	public bool Contains(String value) => Value.Contains(value, comparison_);
+	public bool Contains(char value) => Value.Contains(value, comparison_);
 
 
-	public bool EndsWith(string value) => Value.EndsWith(value, _comparisonType);
+	public bool EndsWith(string value) => Value.EndsWith(value, comparison_);
 		
-	public int IndexOf(string value) => Value.IndexOf(value, _comparisonType);
-	public int IndexOf(string value, int startIndex) => Value.IndexOf(value, startIndex, _comparisonType);
-	public int IndexOf(string value, int startIndex, int count) => Value.IndexOf(value, startIndex, count, _comparisonType);
-	public int IndexOf(char value) => Value.IndexOf(value, _comparisonType);
+	public int IndexOf(string value) => Value.IndexOf(value, comparison_);
+	public int IndexOf(string value, int startIndex) => Value.IndexOf(value, startIndex, comparison_);
+	public int IndexOf(string value, int startIndex, int count) => Value.IndexOf(value, startIndex, count, comparison_);
+	public int IndexOf(char value) => Value.IndexOf(value, comparison_);
 		
-	public int LastIndexOf(string value) => Value.LastIndexOf(value, _comparisonType);
-	public int LastIndexOf(string value, int startIndex) => Value.LastIndexOf(value, startIndex, _comparisonType);
-	public int LastIndexOf(string value, int startIndex, int count) => Value.LastIndexOf(value, startIndex, count, _comparisonType);
+	public int LastIndexOf(string value) => Value.LastIndexOf(value, comparison_);
+	public int LastIndexOf(string value, int startIndex) => Value.LastIndexOf(value, startIndex, comparison_);
+	public int LastIndexOf(string value, int startIndex, int count) => Value.LastIndexOf(value, startIndex, count, comparison_);
 
-	public string Replace(string oldValue, string? newValue) => Value.Replace(oldValue, newValue, _comparisonType);
+	public string Replace(string oldValue, string? newValue) => Value.Replace(oldValue, newValue, comparison_);
 
-	public bool StartsWith(string value) => Value.StartsWith(value, _comparisonType);
+	public bool StartsWith(string value) => Value.StartsWith(value, comparison_);
 
 	#endregion
 }
