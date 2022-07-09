@@ -17,9 +17,9 @@ public sealed class StringComparisonString<TStringComparison> :
 	ICloneable,
 	IEquatable<String?>,  IEquatable<StringComparisonString<TStringComparison>?>,
 	IComparable, IComparable<String?>, IComparable<StringComparisonString<TStringComparison>?>
-where TStringComparison : StringComparison.IStringComparison, new()
+where TStringComparison : StringComparison.IStringComparison
 {
-	static readonly global::System.StringComparison _comparisonType = new TStringComparison().Comparison;
+	static readonly global::System.StringComparison _comparisonType = TStringComparison.Comparison;
 	static readonly StringComparer _comparer = StringComparer.FromComparison(_comparisonType);
 
 	public string Value { get; }
@@ -210,15 +210,15 @@ public static class StringComparisonString
 
 	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
-		return String.Compare(strA?.Value, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
+		return String.Compare(strA?.Value, indexA, strB?.Value, indexB, length, TStringComparison.Comparison);
 	}
 	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, int indexA, string? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
-		return String.Compare(strA?.Value, indexA, strB, indexB, length, new TStringComparison().Comparison);
+		return String.Compare(strA?.Value, indexA, strB, indexB, length, TStringComparison.Comparison);
 	}
 	public static int Compare<TStringComparison>(string? strA, int indexA, StringComparisonString<TStringComparison>? strB, int indexB, int length) where TStringComparison : StringComparison.IStringComparison, new()
 	{
-		return String.Compare(strA, indexA, strB?.Value, indexB, length, new TStringComparison().Comparison);
+		return String.Compare(strA, indexA, strB?.Value, indexB, length, TStringComparison.Comparison);
 	}
 
 	public static int Compare<TStringComparison>(StringComparisonString<TStringComparison>? strA, StringComparisonString<TStringComparison>? strB) where TStringComparison : StringComparison.IStringComparison, new()
@@ -265,6 +265,6 @@ public static class StringComparisonString
 
 	public static int GetHashCode<TStringComparison>(ReadOnlySpan<char> value) where TStringComparison : StringComparison.IStringComparison, new()
 	{
-		return String.GetHashCode(value, new TStringComparison().Comparison);
+		return String.GetHashCode(value, TStringComparison.Comparison);
 	}
 }

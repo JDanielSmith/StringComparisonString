@@ -9,7 +9,7 @@ public static class StringComparison
 	/// </summary>
 	public interface IStringComparison
 	{
-		SStringComparison Comparison { get; }
+		static abstract SStringComparison Comparison { get; }
 	}
 
 	/// <summary>
@@ -17,7 +17,7 @@ public static class StringComparison
 	/// </summary>
 	public struct CurrentCulture : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.CurrentCulture;
+		public static SStringComparison Comparison { get; } = SStringComparison.CurrentCulture;
 	}
 
 	/// <summary>
@@ -26,7 +26,7 @@ public static class StringComparison
 	/// </summary>
 	public struct CurrentCultureIgnoreCase : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.CurrentCultureIgnoreCase;
+		public static SStringComparison Comparison { get; } = SStringComparison.CurrentCultureIgnoreCase;
 	}
 
 	/// <summary>
@@ -34,7 +34,7 @@ public static class StringComparison
 	/// </summary>
 	public struct InvariantCulture : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.InvariantCulture;
+		public static SStringComparison Comparison { get; } = SStringComparison.InvariantCulture;
 	}
 
 	/// <summary>
@@ -43,7 +43,7 @@ public static class StringComparison
 	/// </summary>
 	public struct InvariantCultureIgnoreCase : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.InvariantCultureIgnoreCase;
+		public static SStringComparison Comparison { get; } = SStringComparison.InvariantCultureIgnoreCase;
 	}
 
 	/// <summary>
@@ -51,7 +51,7 @@ public static class StringComparison
 	/// </summary>
 	public struct Ordinal : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.Ordinal;
+		public static SStringComparison Comparison { get; } = SStringComparison.Ordinal;
 	}
 
 	/// <summary>
@@ -60,6 +60,6 @@ public static class StringComparison
 	/// </summary>
 	public struct OrdinalIgnoreCase : IStringComparison
 	{
-		public SStringComparison Comparison { get; } = SStringComparison.OrdinalIgnoreCase;
+		public static SStringComparison Comparison { get; } = SStringComparison.OrdinalIgnoreCase;
 	}
 }
