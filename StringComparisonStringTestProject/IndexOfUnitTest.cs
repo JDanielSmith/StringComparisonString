@@ -1,13 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using JDanielSmith.System;
+﻿using JDanielSmith.System;
 
 namespace StringComparisonStringUnitTest;
 
 [TestClass]
 public class IndexOfUnitTest
 {
-	static readonly StringComparisonString<StringComparison.OrdinalIgnoreCase> abcABC = new("abcABC");
+	static readonly StringComparisonString<JDanielSmith.System.StringComparison.OrdinalIgnoreCase> abcABC = new("abcABC");
 
 	[TestMethod]
 	public void TestIndexOf()
