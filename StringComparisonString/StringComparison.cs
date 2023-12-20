@@ -1,4 +1,4 @@
-﻿using SStringComparison = global::System.StringComparison;
+﻿using StringComparisonEnum = global::System.StringComparison;
 
 namespace JDanielSmith.System;
 
@@ -9,7 +9,7 @@ public static class StringComparison
 	/// </summary>
 	public interface IStringComparison
 	{
-		static abstract SStringComparison Comparison { get; }
+		static abstract StringComparisonEnum Comparison { get; }
 	}
 
 	/// <summary>
@@ -17,7 +17,7 @@ public static class StringComparison
 	/// </summary>
 	public struct CurrentCulture : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.CurrentCulture;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.CurrentCulture;
 	}
 
 	/// <summary>
@@ -26,7 +26,7 @@ public static class StringComparison
 	/// </summary>
 	public struct CurrentCultureIgnoreCase : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.CurrentCultureIgnoreCase;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.CurrentCultureIgnoreCase;
 	}
 
 	/// <summary>
@@ -34,7 +34,7 @@ public static class StringComparison
 	/// </summary>
 	public struct InvariantCulture : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.InvariantCulture;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.InvariantCulture;
 	}
 
 	/// <summary>
@@ -43,7 +43,7 @@ public static class StringComparison
 	/// </summary>
 	public struct InvariantCultureIgnoreCase : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.InvariantCultureIgnoreCase;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.InvariantCultureIgnoreCase;
 	}
 
 	/// <summary>
@@ -51,7 +51,7 @@ public static class StringComparison
 	/// </summary>
 	public struct Ordinal : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.Ordinal;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.Ordinal;
 	}
 
 	/// <summary>
@@ -60,6 +60,6 @@ public static class StringComparison
 	/// </summary>
 	public struct OrdinalIgnoreCase : IStringComparison
 	{
-		public static SStringComparison Comparison { get; } = SStringComparison.OrdinalIgnoreCase;
+		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.OrdinalIgnoreCase;
 	}
 }
