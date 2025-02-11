@@ -1,6 +1,8 @@
 ﻿using StringComparisonEnum = global::System.StringComparison;
 
+#pragma warning disable IDE0130 // Namespace does not match folder structure
 namespace JDanielSmith.System;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 public static class StringComparison
 {
@@ -15,7 +17,7 @@ public static class StringComparison
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules and the current culture.
 	/// </summary>
-	public struct CurrentCulture : IStringComparison
+	public readonly struct CurrentCulture : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.CurrentCulture;
 	}
@@ -24,7 +26,7 @@ public static class StringComparison
 	/// Compare strings using culture-sensitive sort rules, the current culture, and
 	/// ignoring the case of the strings being compared.
 	/// </summary>
-	public struct CurrentCultureIgnoreCase : IStringComparison
+	public readonly struct CurrentCultureIgnoreCase : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.CurrentCultureIgnoreCase;
 	}
@@ -32,7 +34,7 @@ public static class StringComparison
 	/// <summary>
 	/// Compare strings using culture-sensitive sort rules and the invariant culture.
 	/// </summary>
-	public struct InvariantCulture : IStringComparison
+	public readonly struct InvariantCulture : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.InvariantCulture;
 	}
@@ -41,7 +43,7 @@ public static class StringComparison
 	/// Compare strings using culture-sensitive sort rules, the invariant culture, and
 	/// ignoring the case of the strings being compared.
 	/// </summary>
-	public struct InvariantCultureIgnoreCase : IStringComparison
+	public readonly struct InvariantCultureIgnoreCase : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.InvariantCultureIgnoreCase;
 	}
@@ -49,7 +51,7 @@ public static class StringComparison
 	/// <summary>
 	/// Compare strings using ordinal sort rules.
 	/// </summary>
-	public struct Ordinal : IStringComparison
+	public readonly struct Ordinal : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.Ordinal;
 	}
@@ -58,7 +60,7 @@ public static class StringComparison
 	/// Compare strings using ordinal sort rules and ignoring the case of the strings
 	/// being compared.
 	/// </summary>
-	public struct OrdinalIgnoreCase : IStringComparison
+	public readonly struct OrdinalIgnoreCase : IStringComparison
 	{
 		public static StringComparisonEnum Comparison { get; } = StringComparisonEnum.OrdinalIgnoreCase;
 	}

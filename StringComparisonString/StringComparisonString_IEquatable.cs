@@ -1,8 +1,4 @@
-﻿using System;
-
-#nullable enable
-
-namespace JDanielSmith.System;
+﻿namespace JDanielSmith.System;
 
 /// <summary>
 /// Provide a wrapper around System.String which automatically uses TStringComparison instead of having
@@ -18,42 +14,79 @@ public sealed partial class StringComparisonString<TStringComparison>
 	public override bool Equals(object? obj)
 	{
 		if (obj is null)
+		{
 			return false; // this != null
+		}
 
 		var other = obj as StringComparisonString<TStringComparison>;
 		if (other is not null)
+		{
 			return Equals(other); // call Equals(StringComparisonString<TStringComparison>)
+		}
 
 		var s_other = obj as string;
 		if (s_other is not null)
+		{
 			return Equals(s_other); // call Equals(string)
+		}
 
 		return comparer_.Equals(obj);
 	}
 	public bool Equals(StringComparisonString<TStringComparison>? other)
 	{
 		if (other is null)
+		{
 			return false; // this != null
+		}
+
 		return Equals(other.Value); // call Equals(string)
 	}
-	public bool Equals(string? other) => comparer_.Equals(Value, other);
-	public override int GetHashCode() => comparer_.GetHashCode(Value);
+	public bool Equals(string? other)
+	{
+		return comparer_.Equals(Value, other);
+	}
+
+	public override int GetHashCode()
+	{
+		return comparer_.GetHashCode(Value);
+	}
 
 	public static bool operator ==(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y)
 	{
 		if (x is null)
-			return (y is null); // null == null, null != something
+		{
+			return y is null; // null == null, null != something
+		}
+
 		return x.Equals(y); // know x != null
 	}
 	public static bool operator ==(StringComparisonString<TStringComparison> x, string y)
 	{
 		if (x is null)
-			return (y is null); // null == null, null != something
+		{
+			return y is null; // null == null, null != something
+		}
+
 		return x.Equals(y); // know x != null
 	}
-	public static bool operator ==(string x, StringComparisonString<TStringComparison> y) => y == x; // == is commutative, x == y
-	public static bool operator !=(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y) => !(x == y);
-	public static bool operator !=(string x, StringComparisonString<TStringComparison> y) => !(x == y);
-	public static bool operator !=(StringComparisonString<TStringComparison> x, string y) => !(x == y);
+	public static bool operator ==(string x, StringComparisonString<TStringComparison> y)
+	{
+		return y == x; // == is commutative, x == y
+	}
+
+	public static bool operator !=(StringComparisonString<TStringComparison> x, StringComparisonString<TStringComparison> y)
+	{
+		return !(x == y);
+	}
+
+	public static bool operator !=(string x, StringComparisonString<TStringComparison> y)
+	{
+		return !(x == y);
+	}
+
+	public static bool operator !=(StringComparisonString<TStringComparison> x, string y)
+	{
+		return !(x == y);
+	}
 }
 
