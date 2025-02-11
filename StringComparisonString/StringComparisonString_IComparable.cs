@@ -1,8 +1,4 @@
-﻿using System;
-
-#nullable enable
-
-namespace JDanielSmith.System;
+﻿namespace JDanielSmith.System;
 
 /// <summary>
 /// Provide a wrapper around System.String which automatically uses TStringComparison instead of having
@@ -19,18 +15,14 @@ public sealed partial class StringComparisonString<TStringComparison>
 	{
 		// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
 		if (obj is null)
+		{
 			return 1; // If other is not a valid object reference, this instance is greater.
+		}
 
 		// obj must be either StringOrdinalIgnoreCase or String
-		var other = obj as StringComparisonString<TStringComparison>;
-		if (other is null)
+		if (obj is not StringComparisonString<TStringComparison> other)
 		{
-			var s_other = obj as string;
-			if (s_other is null)
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
-				throw new ArgumentException("Object must be of type " + nameof(StringComparisonString<TStringComparison>) + " or String.");
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
-
+			var s_other = obj as string ?? throw new ArgumentException("Object must be of type " + nameof(StringComparisonString<TStringComparison>) + " or String.");
 			return CompareTo(s_other); // call CompareTo(string)
 		}
 
@@ -40,10 +32,14 @@ public sealed partial class StringComparisonString<TStringComparison>
 	{
 		// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
 		if (other is null)
+		{
 			return 1; // If other is not a valid object reference, this instance is greater.
+		}
 
 		if (ReferenceEquals(Value, other.Value))
+		{
 			return 0;
+		}
 
 		return CompareTo(other.Value); // call CompareTo(string)
 	}
@@ -51,7 +47,9 @@ public sealed partial class StringComparisonString<TStringComparison>
 	{
 		// https://msdn.microsoft.com/en-us/library/4d7sx9hd(v=vs.110).aspx
 		if (other is null)
+		{
 			return 1; // If other is not a valid object reference, this instance is greater.
+		}
 
 		return comparer_.Compare(Value, other);
 	}
